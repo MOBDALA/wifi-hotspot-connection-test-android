@@ -56,6 +56,12 @@ public class ListWifiPresenter implements IListWifiPresenter {
     }
 
     @Override
+    public void unregisterReceiver() {
+
+        view.getContextActivity().unregisterReceiver(receiver);
+    }
+
+    @Override
     public void getWifis() {
 
         try {
@@ -83,8 +89,8 @@ public class ListWifiPresenter implements IListWifiPresenter {
     }
 
     @Override
-    public void unregisterReceiver() {
+    public void connectToWifi(ScanResult wifi) {
 
-        view.getContextActivity().unregisterReceiver(receiver);
+        // TODO
     }
 }

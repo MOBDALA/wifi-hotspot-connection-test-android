@@ -124,6 +124,8 @@ public class ListWifiViewActivity extends AppCompatActivity implements IListWifi
             @Override
             public void onItemClick(ScanResult item, int position) {
                 Log.i(LOG_TAG, "position: " + position);
+
+                presenter.connectToWifi(item);
             }
         });
 

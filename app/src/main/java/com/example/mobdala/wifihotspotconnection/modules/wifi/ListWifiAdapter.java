@@ -57,11 +57,7 @@ public class ListWifiAdapter extends RecyclerView.Adapter<ListWifiAdapter.ViewHo
     public void updateItems(List<ScanResult> items) {
 
         if (items != null) {
-
-            if (itemList == null) {
-                itemList = new ArrayList<>();
-            }
-            itemList.addAll(items);
+            itemList = new ArrayList<>(items);
             notifyDataSetChanged();
         }
     }
