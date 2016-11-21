@@ -31,7 +31,6 @@
                 android:id="@+id/tvBSSID_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -58,7 +57,6 @@
                 android:id="@+id/tvSSID_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -85,7 +83,6 @@
                 android:id="@+id/tvCapabilities_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -112,7 +109,6 @@
                 android:id="@+id/tvCenterFreq0_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -139,7 +135,6 @@
                 android:id="@+id/tvCenterFreq1_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -166,7 +161,6 @@
                 android:id="@+id/tvChannelWidth_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -193,7 +187,6 @@
                 android:id="@+id/tvFrequency_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -220,7 +213,6 @@
                 android:id="@+id/tvLevel_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -247,7 +239,6 @@
                 android:id="@+id/tvOperatorFriendlyName_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasdasa"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -274,7 +265,6 @@
                 android:id="@+id/tvTimestamp_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -301,7 +291,6 @@
                 android:id="@+id/tvVenueName_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdasdasda"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 

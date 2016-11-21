@@ -1,4 +1,4 @@
-package com.example.mobdala.wifihotspotconnection.ui.ifaces;
+package com.example.mobdala.wifihotspotconnection.modules.wifi.ifaces;
 
 import android.net.wifi.ScanResult;
 

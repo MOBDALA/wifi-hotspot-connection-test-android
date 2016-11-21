@@ -1,4 +1,4 @@
-package com.example.mobdala.wifihotspotconnection.ui;
+package com.example.mobdala.wifihotspotconnection.modules.wifi;
 
 import android.net.wifi.ScanResult;
 import android.support.v7.widget.RecyclerView;

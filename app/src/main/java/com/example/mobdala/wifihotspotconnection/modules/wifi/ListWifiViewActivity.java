@@ -1,7 +1,7 @@
-package com.example.mobdala.wifihotspotconnection.ui;
+package com.example.mobdala.wifihotspotconnection.modules.wifi;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.mobdala.wifihotspotconnection.R;
-import com.example.mobdala.wifihotspotconnection.ui.ifaces.IListWifiPresenter;
-import com.example.mobdala.wifihotspotconnection.ui.ifaces.IListWifiView;
+import com.example.mobdala.wifihotspotconnection.modules.wifi.ifaces.IListWifiPresenter;
+import com.example.mobdala.wifihotspotconnection.modules.wifi.ifaces.IListWifiView;
 
 import java.util.List;
 
@@ -66,66 +66,45 @@ public class ListWifiViewActivity extends AppCompatActivity implements IListWifi
 
 
     @Override
-    public Context getContext() {
-        return getContext();
+    public Activity getContextActivity() {
+        return this;
     }
 
     @Override
     public void showLoading() {
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        if (loading == null) {
+            loading = new ProgressDialog(ListWifiViewActivity.this);
+            loading.setMessage("Loading...");
+            loading.setCancelable(false);
+            loading.setCanceledOnTouchOutside(false);
+        }
 
-                if (loading == null) {
-                    loading = new ProgressDialog(ListWifiViewActivity.this);
-                    loading.setMessage("Loading...");
-                    loading.setCancelable(false);
-                    loading.setCanceledOnTouchOutside(false);
-                }
-
-                if (!loading.isShowing()) {
-                    loading.show();
-                }
-            }
-        });
+        if (!loading.isShowing()) {
+            loading.show();
+        }
     }
 
     @Override
     public void hideLoading() {
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (loading != null) {
-                    loading.dismiss();
-                }
-            }
-        });
+        if (loading != null) {
+            loading.dismiss();
+        }
     }
 
     @Override
     public void showList(final List<ScanResult> items) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                tvEmpty.setVisibility(View.GONE);
-                listWifis.setVisibility(View.VISIBLE);
-                adapter.updateItems(items);
-            }
-        });
+        tvEmpty.setVisibility(View.GONE);
+        listWifis.setVisibility(View.VISIBLE);
+        adapter.updateItems(items);
     }
 
     @Override
     public void showEmpty() {
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                tvEmpty.setVisibility(View.VISIBLE);
-                listWifis.setVisibility(View.GONE);
-            }
-        });
+        tvEmpty.setVisibility(View.VISIBLE);
+        listWifis.setVisibility(View.GONE);
     }
 
     // ---------------------------------------------------------------------------------------------
