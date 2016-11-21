@@ -9,4 +9,6 @@ public interface IListWifiView extends IView {
     void showList(List<ScanResult> items);
 
     void showEmpty();
+
+    void showWifiDisabledDialog();
 }

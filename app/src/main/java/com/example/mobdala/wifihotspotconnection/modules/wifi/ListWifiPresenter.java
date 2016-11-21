@@ -92,31 +92,46 @@ public class ListWifiPresenter implements IListWifiPresenter {
 
             Log.i(Constants.LOG_TAG, "Trying to connect to Wifi = " + wifi.SSID);
 
-            String networkSSID = wifi.SSID;
-            String networkPass = Utils.getProperty("wifi.mobdala.pwd", view.getContextActivity());
-
             Utils.enableWifi(wifiManager);
 
-            String security = Utils.getScanResultSecurity(wifi);
+            if (Utils.isWifiAvailable(view.getContextActivity())) {
 
-            WifiConfiguration conf = new WifiConfiguration();
-            conf.SSID = "\"" + networkSSID + "\"";
-            Utils.setupWifiSecurity(conf, security, networkPass);
+                showLoading();
 
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-            intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-            intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+                String networkSSID = wifi.SSID;
+                String networkPass = Utils.getProperty("wifi.mobdala.pwd", view.getContextActivity());
 
-            WifiConnectionReceiver connectionReceiver = new WifiConnectionReceiver(this, wifiManager, networkSSID);
-            getContextActivity().registerReceiver(connectionReceiver, intentFilter);
-            int netId = wifiManager.addNetwork(conf);
-            wifiManager.disconnect();
-            wifiManager.enableNetwork(netId, true);
-            wifiManager.reconnect();
+                String security = Utils.getScanResultSecurity(wifi);
+
+                WifiConfiguration conf = new WifiConfiguration();
+                conf.SSID = "\"" + networkSSID + "\"";
+                Utils.setupWifiSecurity(conf, security, networkPass);
+
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+                intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+                intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+
+                WifiConnectionReceiver connectionReceiver = new WifiConnectionReceiver(this, wifiManager, networkSSID);
+                getContextActivity().registerReceiver(connectionReceiver, intentFilter);
+                int netId = wifiManager.addNetwork(conf);
+                wifiManager.disconnect();
+                wifiManager.enableNetwork(netId, true);
+                wifiManager.reconnect();
+
+            } else {
+
+                showWifiDisabledDialog();
+            }
 
         } catch (Exception ex) {
             Log.e(Constants.LOG_TAG, "ListWifiPresenter::connectToWifi", ex);
         }
+    }
+
+    @Override
+    public void showWifiDisabledDialog() {
+
+        view.showWifiDisabledDialog();
     }
 }

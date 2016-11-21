@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Wifi Hot Spot Connection</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="settings">Settings</string>
+    <string name="wifi_disabled_title">Wifi is disabled</string>
+    <string name="wifi_disabled_message">Enable your Wifi connection. Go to Settings to enable it.</string>
 </resources>
