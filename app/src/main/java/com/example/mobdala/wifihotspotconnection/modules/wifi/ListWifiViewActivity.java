@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,8 +19,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.example.mobdala.wifihotspotconnection.utils.Constants.LOG_TAG;
 
 public class ListWifiViewActivity extends AppCompatActivity implements IListWifiView {
 
@@ -123,8 +120,6 @@ public class ListWifiViewActivity extends AppCompatActivity implements IListWifi
         adapter = new ListWifiAdapter(new ListWifiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(ScanResult item, int position) {
-                Log.i(LOG_TAG, "position: " + position);
-
                 presenter.connectToWifi(item);
             }
         });

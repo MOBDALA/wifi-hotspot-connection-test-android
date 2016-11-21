@@ -13,8 +13,8 @@ import java.util.List;
 
 public class WifiScanReceiver extends BroadcastReceiver {
 
-    private WifiManager wifiManager = null;
     private IListWifiPresenter presenter = null;
+    private WifiManager wifiManager = null;
 
     public WifiScanReceiver(IListWifiPresenter presenter, WifiManager wifiManager) {
         this.presenter = presenter;

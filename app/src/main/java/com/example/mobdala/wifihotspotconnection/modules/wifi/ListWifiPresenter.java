@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import com.example.mobdala.wifihotspotconnection.modules.wifi.ifaces.IListWifiPresenter;
 import com.example.mobdala.wifihotspotconnection.modules.wifi.ifaces.IListWifiView;
 import com.example.mobdala.wifihotspotconnection.utils.Constants;
+import com.example.mobdala.wifihotspotconnection.utils.Utils;
+import com.example.mobdala.wifihotspotconnection.utils.WifiConnectionReceiver;
 import com.example.mobdala.wifihotspotconnection.utils.WifiScanReceiver;
 
 import java.util.List;
@@ -17,8 +20,8 @@ import java.util.List;
 public class ListWifiPresenter implements IListWifiPresenter {
 
     private IListWifiView view = null;
-
-    private WifiScanReceiver receiver = null;
+    private WifiManager wifiManager = null;
+    private WifiScanReceiver ScanReceiver = null;
 
     public ListWifiPresenter(IListWifiView view) {
         this.view = view;
@@ -58,7 +61,7 @@ public class ListWifiPresenter implements IListWifiPresenter {
     @Override
     public void unregisterReceiver() {
 
-        view.getContextActivity().unregisterReceiver(receiver);
+        view.getContextActivity().unregisterReceiver(ScanReceiver);
     }
 
     @Override
@@ -67,20 +70,14 @@ public class ListWifiPresenter implements IListWifiPresenter {
         try {
 
             view.showLoading();
-
-            WifiManager wifiManager = (WifiManager) view.getContextActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-            if (!wifiManager.isWifiEnabled()) {
-                Log.e(Constants.LOG_TAG, "Wifi is disable");
-                Log.e(Constants.LOG_TAG, "Connecting Wifi...");
-                wifiManager.setWifiEnabled(true);
-            }
-
+            wifiManager = (WifiManager) view.getContextActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            Utils.enableWifi(wifiManager);
             IntentFilter filter = new IntentFilter();
             filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-            receiver = new WifiScanReceiver(this, wifiManager);
-            view.getContextActivity().registerReceiver(receiver, filter);
+            ScanReceiver = new WifiScanReceiver(this, wifiManager);
+            view.getContextActivity().registerReceiver(ScanReceiver, filter);
             wifiManager.startScan();
+
         } catch (Throwable th) {
             Log.e(Constants.LOG_TAG, "ListWifiPresenter::getWifis", th);
             view.showEmpty();
@@ -91,6 +88,35 @@ public class ListWifiPresenter implements IListWifiPresenter {
     @Override
     public void connectToWifi(ScanResult wifi) {
 
-        // TODO
+        try {
+
+            Log.i(Constants.LOG_TAG, "Trying to connect to Wifi = " + wifi.SSID);
+
+            String networkSSID = wifi.SSID;
+            String networkPass = Utils.getProperty("wifi.mobdala.pwd", view.getContextActivity());
+
+            Utils.enableWifi(wifiManager);
+
+            String security = Utils.getScanResultSecurity(wifi);
+
+            WifiConfiguration conf = new WifiConfiguration();
+            conf.SSID = "\"" + networkSSID + "\"";
+            Utils.setupWifiSecurity(conf, security, networkPass);
+
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+            intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+            intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+
+            WifiConnectionReceiver connectionReceiver = new WifiConnectionReceiver(this, wifiManager, networkSSID);
+            getContextActivity().registerReceiver(connectionReceiver, intentFilter);
+            int netId = wifiManager.addNetwork(conf);
+            wifiManager.disconnect();
+            wifiManager.enableNetwork(netId, true);
+            wifiManager.reconnect();
+
+        } catch (Exception ex) {
+            Log.e(Constants.LOG_TAG, "ListWifiPresenter::connectToWifi", ex);
+        }
     }
 }
