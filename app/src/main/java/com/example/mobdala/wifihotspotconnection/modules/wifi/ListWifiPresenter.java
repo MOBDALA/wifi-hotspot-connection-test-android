@@ -59,9 +59,17 @@ public class ListWifiPresenter implements IListWifiPresenter {
         try {
 
             view.showLoading();
+
+            WifiManager wifiManager = (WifiManager) view.getContextActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+            if (!wifiManager.isWifiEnabled()) {
+                Log.e(Constants.LOG_TAG, "Wifi is disable");
+                Log.e(Constants.LOG_TAG, "Connecting Wifi...");
+                wifiManager.setWifiEnabled(true);
+            }
+
             IntentFilter filter = new IntentFilter();
             filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-            WifiManager wifiManager = (WifiManager) view.getContextActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             WifiScanReceiver receiver = new WifiScanReceiver(this, wifiManager);
             view.getContextActivity().registerReceiver(receiver, filter);
             wifiManager.startScan();
