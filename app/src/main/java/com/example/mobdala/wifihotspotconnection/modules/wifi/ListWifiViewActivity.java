@@ -54,8 +54,13 @@ public class ListWifiViewActivity extends AppCompatActivity implements IListWifi
     @Override
     protected void onResume() {
         super.onResume();
-
         presenter.getWifis();
+    }
+
+    @Override
+    protected void onPause() {
+        presenter.unregisterReceiver();
+        super.onPause();
     }
 
     // ---------------------------------------------------------------------------------------------

@@ -18,6 +18,8 @@ public class ListWifiPresenter implements IListWifiPresenter {
 
     private IListWifiView view = null;
 
+    private WifiScanReceiver receiver = null;
+
     public ListWifiPresenter(IListWifiView view) {
         this.view = view;
     }
@@ -70,7 +72,7 @@ public class ListWifiPresenter implements IListWifiPresenter {
 
             IntentFilter filter = new IntentFilter();
             filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-            WifiScanReceiver receiver = new WifiScanReceiver(this, wifiManager);
+            receiver = new WifiScanReceiver(this, wifiManager);
             view.getContextActivity().registerReceiver(receiver, filter);
             wifiManager.startScan();
         } catch (Throwable th) {
@@ -78,5 +80,11 @@ public class ListWifiPresenter implements IListWifiPresenter {
             view.showEmpty();
             view.hideLoading();
         }
+    }
+
+    @Override
+    public void unregisterReceiver() {
+
+        view.getContextActivity().unregisterReceiver(receiver);
     }
 }
