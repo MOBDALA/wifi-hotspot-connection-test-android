@@ -2,8 +2,6 @@ package com.example.mobdala.wifihotspotconnection.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -30,7 +28,7 @@ public class Utils {
 
     public static void enableWifi(WifiManager wifiManager) {
 
-        if (wifiManager != null && !wifiManager.isWifiEnabled()) {
+        if (wifiManager != null && !wifiManager. isWifiEnabled()) {
             Log.i(Constants.LOG_TAG, "Wifi is disable");
             Log.i(Constants.LOG_TAG, "Connecting Wifi...");
             wifiManager.setWifiEnabled(true);
@@ -71,24 +69,6 @@ public class Utils {
             case OPEN:
                 conf.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                 break;
-        }
-    }
-
-    public static boolean isWifiAvailable(Context context) {
-
-        try {
-
-            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-//            boolean wifiOk = activeNetworkInfo != null && activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI;
-            boolean wifiOk = networkInfo.isConnected();
-            Log.e(Constants.LOG_TAG, "Wifi available? " + wifiOk);
-            return wifiOk;
-
-        } catch (Exception ex) {
-            Log.e(Constants.LOG_TAG, "Wifi no available", ex);
-            return false;
         }
     }
 }

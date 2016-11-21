@@ -92,11 +92,11 @@ public class ListWifiPresenter implements IListWifiPresenter {
 
             Log.i(Constants.LOG_TAG, "Trying to connect to Wifi = " + wifi.SSID);
 
-            Utils.enableWifi(wifiManager);
-
-            if (Utils.isWifiAvailable(view.getContextActivity())) {
+            if (wifiManager.isWifiEnabled()) {
 
                 showLoading();
+
+                Utils.enableWifi(wifiManager);
 
                 String networkSSID = wifi.SSID;
                 String networkPass = Utils.getProperty("wifi.mobdala.pwd", view.getContextActivity());

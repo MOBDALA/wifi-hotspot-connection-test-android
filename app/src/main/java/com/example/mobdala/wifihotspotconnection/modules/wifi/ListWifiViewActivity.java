@@ -130,7 +130,6 @@ public class ListWifiViewActivity extends AppCompatActivity implements IListWifi
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-//                        startActivityForResult(intent, REQUEST_ENABLE_WIFI);
                         startActivity(intent);
                     }
                 });
@@ -147,7 +146,6 @@ public class ListWifiViewActivity extends AppCompatActivity implements IListWifi
         AlertDialog dialog = builder.create();
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
-        // display dialog
         dialog.show();
     }
 
