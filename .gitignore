@@ -9,3 +9,4 @@
 .externalNativeBuild
 /app.properties
 /gradle/
+/gradlew.bat
