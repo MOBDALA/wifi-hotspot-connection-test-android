@@ -1,9 +1,7 @@
 package com.example.mobdala.wifihotspotconnection.modules.wifi;
 
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -12,6 +10,7 @@ import android.util.Log;
 import com.example.mobdala.wifihotspotconnection.modules.wifi.ifaces.IListWifiPresenter;
 import com.example.mobdala.wifihotspotconnection.modules.wifi.ifaces.IListWifiView;
 import com.example.mobdala.wifihotspotconnection.utils.Constants;
+import com.example.mobdala.wifihotspotconnection.utils.WifiScanReceiver;
 
 import java.util.List;
 
@@ -30,6 +29,31 @@ public class ListWifiPresenter implements IListWifiPresenter {
     // ---------------------------------------------------------------------------------------------
 
     @Override
+    public Activity getContextActivity() {
+        return view.getContextActivity();
+    }
+
+    @Override
+    public void showLoading() {
+        view.showLoading();
+    }
+
+    @Override
+    public void hideLoading() {
+        view.hideLoading();
+    }
+
+    @Override
+    public void showList(List<ScanResult> items) {
+        view.showList(items);
+    }
+
+    @Override
+    public void showEmpty() {
+        view.showEmpty();
+    }
+
+    @Override
     public void getWifis() {
 
         try {
@@ -37,23 +61,9 @@ public class ListWifiPresenter implements IListWifiPresenter {
             view.showLoading();
             IntentFilter filter = new IntentFilter();
             filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-            final WifiManager wifiManager = (WifiManager) view.getContextActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            view.getContextActivity().registerReceiver(new BroadcastReceiver() {
-
-                @SuppressLint("UseValueOf")
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    List<ScanResult> scanList = wifiManager.getScanResults();
-                    Log.i(Constants.LOG_TAG, "Wifi connections: " + scanList.size());
-                    if (scanList.size() < 1) {
-                        view.showEmpty();
-                    } else {
-                        view.showList(scanList);
-                    }
-                    view.hideLoading();
-                }
-
-            }, filter);
+            WifiManager wifiManager = (WifiManager) view.getContextActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            WifiScanReceiver receiver = new WifiScanReceiver(this, wifiManager);
+            view.getContextActivity().registerReceiver(receiver, filter);
             wifiManager.startScan();
         } catch (Throwable th) {
             Log.e(Constants.LOG_TAG, "ListWifiPresenter::getWifis", th);

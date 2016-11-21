@@ -1,6 +1,6 @@
 package com.example.mobdala.wifihotspotconnection.modules.wifi.ifaces;
 
-public interface IListWifiPresenter {
+public interface IListWifiPresenter extends IListWifiView {
 
     void getWifis();
 }
